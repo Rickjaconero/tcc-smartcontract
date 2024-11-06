@@ -1,0 +1,419 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "OnlyRouterCanFulfill",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					}
+				],
+				"name": "RequestFulfilled",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "id",
+						"type": "bytes32"
+					}
+				],
+				"name": "RequestSent",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "_renavam",
+						"type": "uint16"
+					},
+					{
+						"internalType": "string",
+						"name": "_placa",
+						"type": "string"
+					}
+				],
+				"name": "cancelaContratoComprador",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "_renavam",
+						"type": "uint16"
+					},
+					{
+						"internalType": "string",
+						"name": "_placa",
+						"type": "string"
+					}
+				],
+				"name": "cancelaContratoVendedor",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "contratosArras",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "renavam",
+						"type": "uint16"
+					},
+					{
+						"internalType": "string",
+						"name": "placa",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "carteiraComprador",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "carteiraVendedor",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "cpfComprador",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "cpfVendedor",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "valorArras",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "valorTotal",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "dataInicial",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "prazoDias",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "pago",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "_renavam",
+						"type": "uint16"
+					},
+					{
+						"internalType": "string",
+						"name": "_placa",
+						"type": "string"
+					}
+				],
+				"name": "enviarArrasComprador",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "requestId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bytes",
+						"name": "response",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bytes",
+						"name": "err",
+						"type": "bytes"
+					}
+				],
+				"name": "handleOracleFulfillment",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "_renavam",
+						"type": "uint16"
+					},
+					{
+						"internalType": "string",
+						"name": "_placa",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_cpfComprador",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_cpfVendedor",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_valorTotal",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_prazoDias",
+						"type": "uint8"
+					}
+				],
+				"name": "iniciarCompra",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_index",
+						"type": "uint256"
+					}
+				],
+				"name": "removeContrato",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "transfer",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"handleOracleFulfillment(bytes32,bytes,bytes)": {
+					"details": "Either response or error parameter will be set, but never both.",
+					"params": {
+						"err": "Aggregated error either from the request's source code or from the execution pipeline.",
+						"requestId": "The requestId returned by FunctionsClient.sendRequest().",
+						"response": "Aggregated response from the request's source code."
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"handleOracleFulfillment(bytes32,bytes,bytes)": {
+					"notice": "Chainlink Functions response handler called by the Functions Router during fullilment from the designated transmitter node in an OCR round."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Arras.sol": "Arras"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@chainlink/contracts@1.2.0/src/v0.8/functions/v1_0_0/FunctionsClient.sol": {
+			"keccak256": "0x40224641403cb9fa03d4f060296d7420a9ff11b46abadc958ae048459205e397",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7d1dabc1ca292b93c373589b1827f01b404d0d66669f58c03b6d2f92a6e64f2c",
+				"dweb:/ipfs/QmP3yzaUfqUqb7qk4fBYw8U6rMgWsSgNKjSUGJncjwaHCq"
+			]
+		},
+		"@chainlink/contracts@1.2.0/src/v0.8/functions/v1_0_0/interfaces/IFunctionsClient.sol": {
+			"keccak256": "0x6117b82e7c4eec44ce557b0fc8bc1ac5f49e5d160ac6d4485452d6aafdd762ff",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0e0828ef423afef9f6f709bb173a7e3991fe555bf9337a4941d65da525ac4ad3",
+				"dweb:/ipfs/QmXz1jHRZFTqdnNxP2tffVQ9NnUE1xgtBMRWuyUrTVY4pm"
+			]
+		},
+		"@chainlink/contracts@1.2.0/src/v0.8/functions/v1_0_0/interfaces/IFunctionsRouter.sol": {
+			"keccak256": "0x44db41e8ff90c2828ca0ada125abc4b411921a86514a4a047fd9fd43ba9d7e08",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c4c3228edc2cff7c55301d3764e54cd7ada6af81ef9aadf8bc116a2c982523d6",
+				"dweb:/ipfs/QmXjJQgCu2gvX6QQJ9GC1gEoy3vrmpf1PiRPLqWqKddwRe"
+			]
+		},
+		"@chainlink/contracts@1.2.0/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol": {
+			"keccak256": "0xed75be0eaba358d468f1fe18adc377d5044f57eff0070081f884a1f212d0adc2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ea7c96e993b253723ed5461008c34b847d7b067221736068d45f029db4d92b0d",
+				"dweb:/ipfs/QmTMMXAWXeDgSChnToydej6e3p331KiJZT3S27ZiPkht9t"
+			]
+		},
+		"@chainlink/contracts@1.2.0/src/v0.8/functions/v1_0_0/libraries/FunctionsResponse.sol": {
+			"keccak256": "0xc72eb037effef32146f7cd4086af00f44f28c8649d891e5e404fec5fda7e802b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://eeeaeadc797b7656fd30201ab8c8ed24fe8fb3f83a480142bb55c7c7babb2b4b",
+				"dweb:/ipfs/Qmdb55a1iWJetog7qUpZ6FHKGSA8g3Vu68LGsXfqfec9k5"
+			]
+		},
+		"@chainlink/contracts@1.2.0/src/v0.8/vendor/@ensdomains/buffer/v0.1.0/Buffer.sol": {
+			"keccak256": "0x0d86b367813922094e02594a406ba89f5e97d3d74ec2ce3c4032566840e302b0",
+			"license": "BSD-2-Clause",
+			"urls": [
+				"bzz-raw://2c65ceaef4ce70e8638275da75f4c384d4e404d588fcac404028da7e634c81a8",
+				"dweb:/ipfs/QmV3vMmjseNombFaRGw7K4PgDj6rrWcEzNY9S5jtLAdJqG"
+			]
+		},
+		"@chainlink/contracts@1.2.0/src/v0.8/vendor/solidity-cborutils/v2.0.0/CBOR.sol": {
+			"keccak256": "0xdecf04203502670ac72ba466c75e4f87f4419907365005f0d73e7d07ee3e5715",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://39c9937cf45f840cf3a45a83dec3719dbd2f1d71198088db48b909ec656f77dd",
+				"dweb:/ipfs/QmQx9mEREaFyJGC2KpqWBqBV712NY8vUBrcqTR4RdVNBiu"
+			]
+		},
+		"@openzeppelin/contracts/utils/Panic.sol": {
+			"keccak256": "0xf7fe324703a64fc51702311dc51562d5cb1497734f074e4f483bfb6717572d7a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://c6a5ff4f9fd8649b7ee20800b7fa387d3465bd77cf20c2d1068cd5c98e1ed57a",
+				"dweb:/ipfs/QmVSaVJf9FXFhdYEYeCEfjMVHrxDh5qL4CGkxdMWpQCrqG"
+			]
+		},
+		"@openzeppelin/contracts/utils/Strings.sol": {
+			"keccak256": "0x725209b582291bb83058e3078624b53d15a133f7401c30295e7f3704181d2aed",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0564ddb19c6d870e27b789d8f985283d815267ad7224883c2d5243c8bacc7dc0",
+				"dweb:/ipfs/QmeC953H4sj88ZRFdJNFdmpf7J9SksP1wK4jyMHLo66z49"
+			]
+		},
+		"@openzeppelin/contracts/utils/math/Math.sol": {
+			"keccak256": "0xa00be322d7db5786750ce0ac7e2f5b633ac30a5ed5fa1ced1e74acfc19acecea",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6c84e822f87cbdc4082533b626667b6928715bb2b1e8e7eb96954cebb9e38c8d",
+				"dweb:/ipfs/QmZmy9dgxLTerBAQDuuHqbL6EpgRxddqgv5KmwpXYVbKz1"
+			]
+		},
+		"@openzeppelin/contracts/utils/math/SafeCast.sol": {
+			"keccak256": "0x195533c86d0ef72bcc06456a4f66a9b941f38eb403739b00f21fd7c1abd1ae54",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b1d578337048cad08c1c03041cca5978eff5428aa130c781b271ad9e5566e1f8",
+				"dweb:/ipfs/QmPFKL2r9CBsMwmUqqdcFPfHZB2qcs9g1HDrPxzWSxomvy"
+			]
+		},
+		"@openzeppelin/contracts/utils/math/SignedMath.sol": {
+			"keccak256": "0xb1970fac7b64e6c09611e6691791e848d5e3fe410fa5899e7df2e0afd77a99e3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://db5fbb3dddd8b7047465b62575d96231ba8a2774d37fb4737fbf23340fabbb03",
+				"dweb:/ipfs/QmVUSvooZKEdEdap619tcJjTLcAuH6QBdZqAzWwnAXZAWJ"
+			]
+		},
+		"Arras.sol": {
+			"keccak256": "0x6b20237f3ae711ba5296019f177f7cecd1edd9de9f195477909ed2134a8f5ae7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5eabd6a998f85b8d6ae99b6bb43af69913e1bebbb6e48ab93fa844fe358f8fed",
+				"dweb:/ipfs/QmNc4kPGqko2tgpXbfexPHNY6Kiwyt2YSW1CTTPnL72GbF"
+			]
+		}
+	},
+	"version": 1
+}
