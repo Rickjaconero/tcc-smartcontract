@@ -6,7 +6,13 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint64",
+						"name": "_subscriptionId",
+						"type": "uint64"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -241,6 +247,24 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint16",
+						"name": "_renavam",
+						"type": "uint16"
+					},
+					{
+						"internalType": "string",
+						"name": "_placa",
+						"type": "string"
+					}
+				],
+				"name": "pagarValorTotalComprador",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "_index",
 						"type": "uint256"
@@ -267,6 +291,24 @@
 				"name": "transfer",
 				"outputs": [],
 				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint16",
+						"name": "_renavam",
+						"type": "uint16"
+					},
+					{
+						"internalType": "string",
+						"name": "_placa",
+						"type": "string"
+					}
+				],
+				"name": "verificaContrato",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -407,11 +449,11 @@
 			]
 		},
 		"Arras.sol": {
-			"keccak256": "0x6b20237f3ae711ba5296019f177f7cecd1edd9de9f195477909ed2134a8f5ae7",
+			"keccak256": "0x5e95aa9b4a6556068f844ed252a0b92279ca9b43eccd48b67eaf53ff4f11cc31",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5eabd6a998f85b8d6ae99b6bb43af69913e1bebbb6e48ab93fa844fe358f8fed",
-				"dweb:/ipfs/QmNc4kPGqko2tgpXbfexPHNY6Kiwyt2YSW1CTTPnL72GbF"
+				"bzz-raw://b2a83b1b6463f85313206f5a60a68a841a635544699395ada44aa266aed8a65b",
+				"dweb:/ipfs/QmV24ik3735iP7e7mvXoNofFqbaRx2iU1wqQzwDvv4eeGo"
 			]
 		}
 	},

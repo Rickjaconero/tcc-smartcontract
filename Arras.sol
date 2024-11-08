@@ -26,11 +26,25 @@ contract Arras is FunctionsClient{
     address router = 0xb83E47C2bC239B3bf370bc41e1459A34b41238D0;
     bytes32 donID = 0x66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000;
     uint32 gasLimit = 300000;
+    uint64 subscriptionId;
 
     ContratoArras[] public contratosArras;
 
-    constructor() FunctionsClient(router){
+    string requisicaoDenatran =
+        "const cpf = args[0];"
+        "const placa = args[1];"
+        "const renavam = args[2];"
+        "const apiResponse = await Functions.makeHttpRequest({"
+        "  url: `https://api.ricardoguimaraes.dev/v1/veiculos/proprietario/cpf/${cpf}/placa/${placa}/renavam/${renavam}`"
+        "})"
+        "if (apiResponse.error) "
+        "  return Functions.encodeUint256(500);"
+        "const { data } = apiResponse;"
+        "return Functions.encodeUint256(data.renavam !== null ? 200 : 204);";
+
+    constructor(uint64 _subscriptionId) FunctionsClient(router){
         owner = msg.sender;
+        subscriptionId = _subscriptionId;
     }
 
     function iniciarCompra(uint16 _renavam,
@@ -64,6 +78,44 @@ contract Arras is FunctionsClient{
         uint i = encontraContrato(_renavam, _placa);
         
         contratosArras[i].carteiraComprador = msg.sender;
+    }
+
+    function pagarValorTotalComprador(uint16 _renavam,
+        string memory _placa) public payable {
+        
+        uint i = encontraContrato(_renavam, _placa);
+
+        require(contratosArras[i].carteiraComprador == msg.sender);
+        require(contratosArras[i].valorTotal == msg.value);
+
+        contratosArras[i].pago = true;
+    }
+
+    function verificaContrato(uint16 _renavam,
+        string memory _placa) public {
+        
+        uint i = encontraContrato(_renavam, _placa);
+
+        if(contratosArras[i].carteiraComprador != 0x0000000000000000000000000000000000000000 &&
+           contratosArras[i].dataInicial + 24*60*60 < block.timestamp ){
+            
+            (bool sent, bytes memory data) = contratosArras[i].carteiraComprador.call{value: contratosArras[i].valorArras}("");
+            require(sent, "Failed to send Ether");
+
+            removeContrato(i);
+
+            return;
+        }
+
+        if(contratosArras[i].prazoDias < block.timestamp && !contratosArras[i].pago){
+            
+            uint valorReembolso = contratosArras[i].valorArras * 2;
+
+            (bool sent, bytes memory data) = contratosArras[i].carteiraVendedor.call{value: valorReembolso}("");
+            require(sent, "Failed to send Ether");
+            
+            removeContrato(i);
+        }
     }
 
     function cancelaContratoVendedor(uint16 _renavam,
@@ -111,7 +163,7 @@ contract Arras is FunctionsClient{
 
         for (uint i = 0; i < contratosArras.length; i++) 
         {
-            if(contratosArras[i].renavam == _renavam &&
+            if (contratosArras[i].renavam == _renavam &&
                keccak256(bytes(contratosArras[i].placa)) == keccak256(bytes(_placa))){
                 return i;
             }
