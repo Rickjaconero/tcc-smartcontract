@@ -116,8 +116,8 @@ contract Arras is FunctionsClient{
 
     function verificaContrato(string memory _renavam,
         string memory _placa) public {
-        
-            uint i = encontraContrato(_renavam, _placa);
+
+        uint i = encontraContrato(_renavam, _placa);
 
                                                   
         if(contratosArras[i].carteiraComprador == 0x0000000000000000000000000000000000000000 &&
@@ -177,9 +177,9 @@ contract Arras is FunctionsClient{
 
         require(idUltimaRequisicao == requestId, "Failed to send Ether");
 
-        uint256 codigoResponse = uint256(bytes32(response));
+        bytes memory codigoResponse = response;
 
-        if(contratosArras[idContratoRequisicao].prazoDias < block.timestamp && codigoResponse == 204){
+        if(contratosArras[idContratoRequisicao].prazoDias < block.timestamp && keccak256(codigoResponse) == keccak256((bytes("204")))){
             uint valorReembolso = contratosArras[idContratoRequisicao].valorTotal + contratosArras[idContratoRequisicao].valorArras;
 
             (bool sent, bytes memory data) = contratosArras[idContratoRequisicao].carteiraComprador.call{value: valorReembolso}("");
@@ -192,7 +192,7 @@ contract Arras is FunctionsClient{
             return;
         }
 
-        if(codigoResponse == 200){
+        if(keccak256(codigoResponse) == keccak256((bytes("200")))){
             uint valorReembolso = contratosArras[idContratoRequisicao].valorTotal + contratosArras[idContratoRequisicao].valorArras;
 
             (bool sent, bytes memory data) = contratosArras[idContratoRequisicao].carteiraVendedor.call{value: valorReembolso}("");
