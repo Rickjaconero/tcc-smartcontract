@@ -18,6 +18,16 @@
 			},
 			{
 				"inputs": [],
+				"name": "EmptySource",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NoInlineSecrets",
+				"type": "error"
+			},
+			{
+				"inputs": [],
 				"name": "OnlyRouterCanFulfill",
 				"type": "error"
 			},
@@ -48,11 +58,24 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
 				"inputs": [
 					{
-						"internalType": "uint16",
+						"indexed": false,
+						"internalType": "string",
+						"name": "log",
+						"type": "string"
+					}
+				],
+				"name": "Response",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
 						"name": "_renavam",
-						"type": "uint16"
+						"type": "string"
 					},
 					{
 						"internalType": "string",
@@ -68,9 +91,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint16",
+						"internalType": "string",
 						"name": "_renavam",
-						"type": "uint16"
+						"type": "string"
 					},
 					{
 						"internalType": "string",
@@ -94,9 +117,9 @@
 				"name": "contratosArras",
 				"outputs": [
 					{
-						"internalType": "uint16",
+						"internalType": "string",
 						"name": "renavam",
-						"type": "uint16"
+						"type": "string"
 					},
 					{
 						"internalType": "string",
@@ -155,9 +178,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint16",
+						"internalType": "string",
 						"name": "_renavam",
-						"type": "uint16"
+						"type": "string"
 					},
 					{
 						"internalType": "string",
@@ -196,9 +219,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint16",
+						"internalType": "string",
 						"name": "_renavam",
-						"type": "uint16"
+						"type": "string"
 					},
 					{
 						"internalType": "string",
@@ -221,9 +244,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "uint256",
 						"name": "_prazoDias",
-						"type": "uint8"
+						"type": "uint256"
 					}
 				],
 				"name": "iniciarCompra",
@@ -247,9 +270,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint16",
+						"internalType": "string",
 						"name": "_renavam",
-						"type": "uint16"
+						"type": "string"
 					},
 					{
 						"internalType": "string",
@@ -260,19 +283,6 @@
 				"name": "pagarValorTotalComprador",
 				"outputs": [],
 				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "_index",
-						"type": "uint256"
-					}
-				],
-				"name": "removeContrato",
-				"outputs": [],
-				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -296,9 +306,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint16",
+						"internalType": "string",
 						"name": "_renavam",
-						"type": "uint16"
+						"type": "string"
 					},
 					{
 						"internalType": "string",
@@ -449,11 +459,11 @@
 			]
 		},
 		"Arras.sol": {
-			"keccak256": "0x5e95aa9b4a6556068f844ed252a0b92279ca9b43eccd48b67eaf53ff4f11cc31",
+			"keccak256": "0xf834556b89d1d1f48f521791e797fc63046f9cfb2157a646ab4949d76623ec8e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b2a83b1b6463f85313206f5a60a68a841a635544699395ada44aa266aed8a65b",
-				"dweb:/ipfs/QmV24ik3735iP7e7mvXoNofFqbaRx2iU1wqQzwDvv4eeGo"
+				"bzz-raw://a187915219961de928cad195a6a679260336dfdb292afc0390bc555bce13f020",
+				"dweb:/ipfs/QmSuNMzeH6QzdjyqHNDxAeKp5GBCp1dZe8kpAYJSmk72vn"
 			]
 		}
 	},
