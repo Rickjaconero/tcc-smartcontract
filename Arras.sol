@@ -58,7 +58,7 @@ contract Arras is FunctionsClient{
         contrato.valorArras = msg.value;
         contrato.valorTotal = _valorTotal;
         contrato.pago = false;
-        contrato.prazoDias = block.timestamp + 5;//(_prazoDias*24*60*60);
+        contrato.prazoDias = block.timestamp + (_prazoDias*24*60*60);
         contrato.dataInicial = block.timestamp;
 
         contratosArras.push(contrato);
@@ -118,10 +118,9 @@ contract Arras is FunctionsClient{
         string memory _placa) public {
 
         uint i = encontraContrato(_renavam, _placa);
-
                                                   
         if(contratosArras[i].carteiraComprador == 0x0000000000000000000000000000000000000000 &&
-           contratosArras[i].dataInicial < block.timestamp ){//+ 24*60*60 < block.timestamp ){
+           contratosArras[i].dataInicial + 24*60*60 < block.timestamp ){
             
             (bool sent, bytes memory data) = contratosArras[i].carteiraComprador.call{value: contratosArras[i].valorArras}("");
             require(sent, "Failed to send Ether");
@@ -146,6 +145,15 @@ contract Arras is FunctionsClient{
 
             return;
         }
+
+        //request
+        //const apiResponse = await Functions.makeHttpRequest({
+        //  url: `https://api.ricardoguimaraes.dev/v1/veiculos/proprietario/cpf/{cpf}/placa/{placa}/renavam/{renavam}`});
+        //if (apiResponse.error)
+        // 	return Functions.encodeString('500');
+        //const { data } = apiResponse;
+        //const verificaTransferencia = data.renavam !== null ? '200' : '204';
+        //return Functions.encodeString(verificaTransferencia);");
 
         if(contratosArras[i].pago){
             FunctionsRequest.Request memory request;
