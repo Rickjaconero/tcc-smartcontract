@@ -24,8 +24,9 @@ contract Arras is FunctionsClient{
 
     address public owner;
     address router = 0xb83E47C2bC239B3bf370bc41e1459A34b41238D0;
-    bytes32 donID = 0x66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000;
+    bytes32 donId = 0x66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000;
     uint32 gasLimit = 300000;
+    bool contratoEncontrado;
     uint64 subscriptionId;
     bytes32 idUltimaRequisicao;
     uint256 idContratoRequisicao;
@@ -46,6 +47,15 @@ contract Arras is FunctionsClient{
         uint _valorTotal,
         uint _prazoDias) public payable {
         
+        require(msg.value > 0, "Necessario fazer o pagamento das arras para iniciar");
+        require(_valorTotal > msg.value, "O valor total precisa ser maior que o das arras");
+
+        require(keccak256(bytes(_cpfComprador)) != keccak256(bytes(_cpfVendedor)),
+        "Comprador e vendedor precisam ter diferentes CPFs" );
+
+        encontraContrato(_renavam, _placa);
+        require(!contratoEncontrado, "Veiculo ja em negociacao");
+
         require(validaCpf(_cpfComprador));
         require(validaCpf(_cpfVendedor));
 
@@ -58,7 +68,7 @@ contract Arras is FunctionsClient{
         contrato.valorArras = msg.value;
         contrato.valorTotal = _valorTotal;
         contrato.pago = false;
-        contrato.prazoDias = block.timestamp + (_prazoDias*24*60*60);
+        contrato.prazoDias = block.timestamp + 60;//(_prazoDias*24*60*60);
         contrato.dataInicial = block.timestamp;
 
         contratosArras.push(contrato);
@@ -68,6 +78,12 @@ contract Arras is FunctionsClient{
         string memory _placa) public payable {
         
         uint i = encontraContrato(_renavam, _placa);
+
+        require(contratoEncontrado, "Contrato nao encontrado");
+        require(contratosArras[i].valorArras == msg.value, "Valor das arras diferente do pago pelo vendedor");
+        require(contratosArras[i].carteiraComprador != msg.sender, "Carteira ja utilizado para o vendedor");
+        require(contratosArras[i].carteiraComprador == 0x0000000000000000000000000000000000000000,
+        "Comprador ja informado");
         
         contratosArras[i].carteiraComprador = msg.sender;
     }
@@ -76,9 +92,12 @@ contract Arras is FunctionsClient{
         string memory _placa) public payable {
         
         uint i = encontraContrato(_renavam, _placa);
-
-        require(contratosArras[i].carteiraComprador == msg.sender);
-        require(contratosArras[i].valorTotal == (msg.value + contratosArras[i].valorArras));
+        
+        require(contratoEncontrado, "Contrato nao encontrado");
+        require(contratosArras[i].carteiraComprador == msg.sender, "Carteira diferente da utilizada pelo comprador");
+        
+        uint somaValores = msg.value + contratosArras[i].valorArras;
+        require(contratosArras[i].valorTotal == somaValores, "Valor total diferente do informado");
 
         contratosArras[i].pago = true;
     }
@@ -88,13 +107,14 @@ contract Arras is FunctionsClient{
         
         uint i = encontraContrato(_renavam, _placa);
 
+        require(contratoEncontrado, "Contrato nao encontrado");
         require(contratosArras[i].carteiraVendedor == msg.sender);
         require(contratosArras[i].carteiraComprador != 0x0000000000000000000000000000000000000000);
 
         uint valorReembolso = contratosArras[i].valorArras * 2;
 
         (bool sent, bytes memory data) = contratosArras[i].carteiraComprador.call{value: valorReembolso}("");
-        require(sent, "Failed to send Ether");
+        require(sent, "Erro ao fazer o pagamento");
 
         removeContrato(i);
     }
@@ -104,12 +124,20 @@ contract Arras is FunctionsClient{
         
         uint i = encontraContrato(_renavam, _placa);
 
+        require(contratoEncontrado, "Contrato nao encontrado");
         require(contratosArras[i].carteiraComprador == msg.sender);
 
         uint valorReembolso = contratosArras[i].valorArras * 2;
 
         (bool sent, bytes memory data) = contratosArras[i].carteiraVendedor.call{value: valorReembolso}("");
-        require(sent, "Failed to send Ether");
+        require(sent, "Erro ao fazer o pagamento");
+
+        if(contratosArras[i].pago){
+            valorReembolso = contratosArras[i].valorTotal - contratosArras[i].valorArras;
+
+            (bool sent, bytes memory data) = contratosArras[i].carteiraComprador.call{value: valorReembolso}("");
+            require(sent, "Erro ao fazer o pagamento");
+        }
         
         removeContrato(i);
     }
@@ -118,12 +146,14 @@ contract Arras is FunctionsClient{
         string memory _placa) public {
 
         uint i = encontraContrato(_renavam, _placa);
+
+        require(contratoEncontrado, "Contrato nao encontrado");
                                                   
         if(contratosArras[i].carteiraComprador == 0x0000000000000000000000000000000000000000 &&
-           contratosArras[i].dataInicial + 24*60*60 < block.timestamp ){
+           contratosArras[i].dataInicial + 60 < block.timestamp ){//+ 24*60*60 < block.timestamp ){
             
             (bool sent, bytes memory data) = contratosArras[i].carteiraComprador.call{value: contratosArras[i].valorArras}("");
-            require(sent, "Failed to send Ether");
+            require(sent, "Erro ao fazer o pagamento");
 
             removeContrato(i);
 
@@ -137,7 +167,7 @@ contract Arras is FunctionsClient{
             uint valorReembolso = contratosArras[i].valorArras * 2;
 
             (bool sent, bytes memory data) = contratosArras[i].carteiraVendedor.call{value: valorReembolso}("");
-            require(sent, "Failed to send Ether");
+            require(sent, "Erro ao fazer o pagamento");
             
             removeContrato(i);
 
@@ -153,7 +183,7 @@ contract Arras is FunctionsClient{
         // 	return Functions.encodeString('500');
         //const { data } = apiResponse;
         //const verificaTransferencia = data.renavam !== null ? '200' : '204';
-        //return Functions.encodeString(verificaTransferencia);");
+        //return Functions.encodeString(verificaTransferencia);
 
         if(contratosArras[i].pago){
             FunctionsRequest.Request memory request;
@@ -173,25 +203,30 @@ contract Arras is FunctionsClient{
                 request.encodeCBOR(),
                 subscriptionId,
                 gasLimit,
-                donID);
+                donId);
+            
+            return;
         }
+
+        emit Response("Negociacao em andamento");
     }
  
-     function fulfillRequest(
+    function fulfillRequest(
         bytes32 requestId,
         bytes memory response,
         bytes memory err
     ) internal override {
 
-        require(idUltimaRequisicao == requestId, "Failed to send Ether");
-
         bytes memory codigoResponse = response;
 
-        if(contratosArras[idContratoRequisicao].prazoDias < block.timestamp && keccak256(codigoResponse) == keccak256((bytes("204")))){
+        if(contratosArras[idContratoRequisicao].prazoDias < block.timestamp &&
+           keccak256(codigoResponse) == keccak256((bytes("204")))){
+
             uint valorReembolso = contratosArras[idContratoRequisicao].valorTotal + contratosArras[idContratoRequisicao].valorArras;
 
             (bool sent, bytes memory data) = contratosArras[idContratoRequisicao].carteiraComprador.call{value: valorReembolso}("");
-            require(sent, "Failed to send Ether");
+            
+            require(sent, "Erro ao fazer o pagamento");
             
             removeContrato(idContratoRequisicao);
 
@@ -204,28 +239,33 @@ contract Arras is FunctionsClient{
             uint valorReembolso = contratosArras[idContratoRequisicao].valorTotal + contratosArras[idContratoRequisicao].valorArras;
 
             (bool sent, bytes memory data) = contratosArras[idContratoRequisicao].carteiraVendedor.call{value: valorReembolso}("");
-            require(sent, "Failed to send Ether");
+            
+            require(sent, "Erro ao fazer o pagamento");
 
             emit Response("Contrato cumprido, valor enviado ao vendedor");
             
             removeContrato(idContratoRequisicao);
+
+            return;
         }
+
+        emit Response("Negociacao em andamento");
     }
 
     function encontraContrato(string memory _renavam,
-        string memory _placa) internal view returns (uint){
+        string memory _placa) internal returns (uint){
         
-        bool contratoEncontrado = false;
+        contratoEncontrado = false;
 
         for (uint i = 0; i < contratosArras.length; i++) 
         {
             if (keccak256(bytes(contratosArras[i].renavam)) == keccak256(bytes(_renavam)) &&
                keccak256(bytes(contratosArras[i].placa)) == keccak256(bytes(_placa))){
+                contratoEncontrado = true;
                 return i;
             }
         }
 
-        require(contratoEncontrado);
         return 0;
     }
 
@@ -285,6 +325,6 @@ contract Arras is FunctionsClient{
         require(msg.sender==owner);
 
         (bool sent, bytes memory data) = _to.call{value: amount}("");
-        require(sent, "Failed to send Ether");
+        require(sent, "Erro ao fazer o pagamento");
     }
 }

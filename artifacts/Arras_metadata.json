@@ -459,11 +459,11 @@
 			]
 		},
 		"Arras.sol": {
-			"keccak256": "0xf36c59c8c227f3549e8aa2a48ce2f813cba18df02ee3a02ff331ed515453af3d",
+			"keccak256": "0x2bf63b0ab792df2a60c74a5cbaf3be9df8b3713b54d3e3d84026bb9d03bd6b40",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6fdd5811d121e71f722d4e6453be79ca8ee4c72520c9d6213ebe974aeb7f0a69",
-				"dweb:/ipfs/QmXnUhbhPYNwVL2DNCkMwwZ7xoaDN2TdZWw4ePVdpE4xTo"
+				"bzz-raw://81cc1581dcf4acd894298703a4a908dea8885b30b9d06e93949507b7b1cc0330",
+				"dweb:/ipfs/QmYTYNAz3tPf4EFaSEMhQJT3LcNDHafBDDACCnQshjvano"
 			]
 		}
 	},
